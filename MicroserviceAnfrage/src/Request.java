@@ -18,8 +18,10 @@ public class Request {
 
         try {
 
-            String url ="http://localhost:8000/name?name=lina";
+            String url ="http://localhost:8000/name?firstname=lina&lastname=brunken";
+            //um name zu registrieren
             URL obj = new URL(url);
+
             HttpURLConnection httpcon =(HttpURLConnection) obj.openConnection();
 
             int responseCode = httpcon.getResponseCode();

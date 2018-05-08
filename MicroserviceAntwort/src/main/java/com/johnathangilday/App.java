@@ -1,6 +1,6 @@
 package com.johnathangilday;
 
-import com.johnathangilday.jaxrs.GreetingResourceConfig;
+import com.johnathangilday.jaxrs.NameResourceConfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.eclipse.jetty.server.Server;
@@ -26,7 +26,7 @@ public class App {
 
         final int port = config.getInt("port");
         final URI baseUri = UriBuilder.fromUri("http://localhost/").port(port).build();
-        final GreetingResourceConfig app = new GreetingResourceConfig();
+        final NameResourceConfig app = new NameResourceConfig();
 
         // start jetty
         logger.info("listening on port {}", port);

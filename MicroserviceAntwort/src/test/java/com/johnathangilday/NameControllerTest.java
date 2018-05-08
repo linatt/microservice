@@ -1,6 +1,6 @@
 package com.johnathangilday;
 
-import com.johnathangilday.jaxrs.GreetingResourceConfig;
+import com.johnathangilday.jaxrs.NameResourceConfig;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -10,7 +10,7 @@ import javax.ws.rs.core.Application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GreetingControllerTest extends JerseyTest {
+public class NameControllerTest extends JerseyTest {
 
     @Override
     protected Application configure() {
@@ -18,7 +18,7 @@ public class GreetingControllerTest extends JerseyTest {
         // this allows us to run parallel tests
         forceSet(TestProperties.CONTAINER_PORT, "0");
 
-        return ResourceConfig.forApplication(new GreetingResourceConfig());
+        return ResourceConfig.forApplication(new NameResourceConfig());
     }
 
     @Test

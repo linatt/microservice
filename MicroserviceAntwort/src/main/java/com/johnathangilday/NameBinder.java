@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 /**
  * HK2 module for wiring Greeting components
  */
-public class GreetingBinder extends AbstractBinder {
+public class NameBinder extends AbstractBinder {
 
   @Override
     protected void configure() {
