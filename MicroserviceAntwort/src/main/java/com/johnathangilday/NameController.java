@@ -13,9 +13,9 @@ public class NameController {
 
         String zeichenfolge;
         if(reg.firstname.equals("lina")){
-            zeichenfolge="cool";
+            zeichenfolge="Hallo Lina!";
         }else{
-            zeichenfolge="nicht so cool";
+            zeichenfolge="Hallo Unbekannt!";
         }
 
         return zeichenfolge;

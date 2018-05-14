@@ -22,12 +22,14 @@ public class Request {
             //um name zu registrieren
             URL obj = new URL(url);
 
+            System.out.print("\nSende GET Anfrage zu " + url + "\n");
+            //
+            //con aufbau
             HttpURLConnection httpcon =(HttpURLConnection) obj.openConnection();
 
             int responseCode = httpcon.getResponseCode();
-            System.out.println("\nSending GET Request zu " + url);
 
-            System.out.println("\nRespondCOde: " + responseCode);
+            System.out.print("\nStatuscode: " + responseCode+ "\n");
 
             BufferedReader in = new BufferedReader(
                 new InputStreamReader(httpcon.getInputStream()));
@@ -44,6 +46,7 @@ public class Request {
             System.out.println("Server: " + response.toString());
 
             }catch (Exception e){
+            System.out.print(e + "\n");
 
         }
 
