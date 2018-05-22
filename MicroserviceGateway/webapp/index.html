@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Microservice Gateway</title>
+
+    <script>
+        function sendRequest() {
+            var firstname = document.querySelector("#username").value;
+            var password = document.querySelector("#password").value;
+            fetch("/name?firstname=" + firstname + "&lastname=" + password, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "text/plain"
+                }
+            })
+                .then(function(resp) {
+                    console.log(resp);
+                    var responseValue = resp.text();
+                    document.querySelector("#result").innerHTML = responseValue;
+                })
+        }
+    </script>
+</head>
+<body>
+<fieldset><legend>Login</legend>
+
+    <p><label for="username">Username:</label><br>
+        <input type="text" size="30" maxlength=20" name="username" id="username"></p>
+
+    <p><label for="password">Password:</label><br>
+        <input type="text" size="30" maxlength="20" name="password" id="password"></p>
+
+    <input type="submit" value=OK onclick="sendRequest()">
+
+    <div id="result">
+
+    </div>
+
+</fieldset>
+</body>
+
+</html>
