@@ -17,7 +17,9 @@
                 .then(function(resp) {
                     console.log(resp);
                     var responseValue = resp.text();
-                    document.querySelector("#result").innerHTML = responseValue;
+                    responseValue.then(function(output) {
+                       document.querySelector("#result").innerHTML = output;
+                    });
                 })
         }
     </script>
@@ -31,13 +33,9 @@
     <p><label for="password">Password:</label><br>
         <input type="text" size="30" maxlength="20" name="password" id="password"></p>
 
-    <input type="submit" value=OK onclick="sendRequest()">
-
+    <input type="submit" value=OK onclick="sendRequest();">
     <div id="result">
-
     </div>
-
 </fieldset>
 </body>
-
 </html>

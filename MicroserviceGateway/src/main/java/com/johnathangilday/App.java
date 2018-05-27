@@ -1,6 +1,7 @@
 package com.johnathangilday;
 
 import com.johnathangilday.jaxrs.NameResourceConfig;
+import com.johnathangilday.servlet.WebInterfaceServlet;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.eclipse.jetty.server.Server;
@@ -9,11 +10,16 @@ import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.Servlet;
 import javax.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.net.URI;
@@ -34,21 +40,26 @@ public class App {
         logger.info("listening on port {}", port);
         final NameResourceConfig app = new NameResourceConfig();
 
-        final Server server = JettyHttpContainerFactory.createServer(baseUri, ResourceConfig.forApplication(app), false);
-
-        ContextHandler contextHandler = new ContextHandler();
-        contextHandler.setContextPath("/web");
+//        final Server server = JettyHttpContainerFactory.createServer(baseUri, ResourceConfig.forApplication(app), false);
+        Server server = new Server(port);
+        ContextHandler webContextHandler = new ContextHandler();
+        //contextHandler.setContextPath("");
+        webContextHandler.setContextPath("/web");
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
         resource_handler.setWelcomeFiles(new String[]{ "index.html" });
 
         resource_handler.setResourceBase("./webapp");
-        contextHandler.setHandler(resource_handler);
+        webContextHandler.setHandler(resource_handler);
+
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        ServletHolder holder = new ServletHolder(new ServletContainer(ResourceConfig.forApplication(app)));
+        context.addServlet(holder, "/*");
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { contextHandler });
+        handlers.setHandlers(new Handler[] { webContextHandler, context });
+    server.setHandler(handlers);
 
-        server.setHandler(handlers);
         try {
             server.start();
             server.join();
