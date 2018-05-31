@@ -13,7 +13,6 @@ import javax.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.net.URI;
 import java.util.Optional;
-
 /**
  * Point of entry. Configure and start webapp
  */
@@ -52,5 +51,7 @@ public class App {
                 .map(c -> c.withFallback(defaultConfig))
                 .orElse(defaultConfig);
     }
+
+
 
 }
