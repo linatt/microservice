@@ -15,11 +15,12 @@ public class NameController {
     @GET
     public String getName(@QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) throws IOException {
         try {
-            String url = "http://localhost:8001/name?firstname=" + firstname + "&lastname=" + lastname;
-            //reg name
-            URL obj = new URL(url);
+            String urlDB = "http://localhost:8080/name/MicroserviceRequ";
+            //String url = urlDB+"/name?firstname=" + firstname + "&lastname=" + lastname;
+            //asking for url from Microservice
+            URL obj = new URL(urlDB);
 
-            System.out.print("\nSending GET-Request: " + url + "\n");
+            System.out.print("\nSending GET-Request: " + urlDB + "\n");
             //
             //build connection
             HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
@@ -40,7 +41,41 @@ public class NameController {
             //System.out.println(response.toString());
 
             //JSONObject test = new JSONObject(response.toString());
-            return response.toString();
+            String urlService = response.toString(); //http://localhost:8001
+            System.out.println("URL-SERVICE: " + urlService);
+
+
+
+            String url = urlService+"/name?firstname=" + firstname + "&lastname=" + lastname;
+            System.out.println("URL to MicroserviceRequ: " + url);
+            System.out.println(url);
+            URL obj2 = new URL(url);
+
+            System.out.print("\nSending GET-Request: " + url + "\n");
+            //
+            //build connection
+            HttpURLConnection httpcon2 = (HttpURLConnection) obj2.openConnection();
+
+            int responseCode2 = httpcon2.getResponseCode();
+
+            System.out.print("\nStatuscode: " + responseCode2 + "\n");
+
+            BufferedReader in2 = new BufferedReader(
+                    new InputStreamReader(httpcon2.getInputStream()));
+            String inputLine2;
+            StringBuffer response2 = new StringBuffer();
+            while ((inputLine2 = in2.readLine()) != null) {
+                response2.append(inputLine2);
+            }
+            in2.close();
+
+            //System.out.println(response.toString());
+
+            //JSONObject test = new JSONObject(response.toString());
+            String AnswerRequest= response2.toString();
+
+            return AnswerRequest;
+
         }catch (Exception e){
             System.out.print(e + "\n");
             throw e;

@@ -68,6 +68,7 @@ public class App {
 
         try {
             server.start();
+
             server.join();
         } catch (Exception e) {
             throw new RuntimeException(e);

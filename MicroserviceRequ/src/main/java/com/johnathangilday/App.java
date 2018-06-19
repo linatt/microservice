@@ -4,12 +4,17 @@ import com.johnathangilday.jaxrs.ProxyResourceConfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.eclipse.jetty.server.Server;
+import org.glassfish.jersey.client.ClientResponse;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -38,6 +43,48 @@ public class App {
         final Server server = JettyHttpContainerFactory.createServer(baseUri, ResourceConfig.forApplication(app));
         try {
             server.start();
+
+         //   String url = "http://localhost/8080/name/register?name=Microservice&url=http://localhost/8001";
+            String url = "http://localhost/8080/name/register?name=Microservice&url=test";
+            System.out.println("URL to Databaseu: " + url);
+            System.out.println(url);
+            URL obj2 = new URL(url);
+
+            System.out.print("\nSending GET-Request: " + url + "\n");
+            //
+            //build connection
+            HttpURLConnection httpcon2 = (HttpURLConnection) obj2.openConnection();
+
+            int responseCode2 = httpcon2.getResponseCode();
+
+            System.out.print("\nStatuscode: " + responseCode2 + "\n");
+
+            BufferedReader in2 = new BufferedReader(
+                    new InputStreamReader(httpcon2.getInputStream()));
+            String inputLine2;
+            StringBuffer response2 = new StringBuffer();
+            while ((inputLine2 = in2.readLine()) != null) {
+                response2.append(inputLine2);
+        }
+             in2.close();
+
+//            System.out.println("Register");
+//            //register in DB
+//
+//            Client client = ClientBuilder.newClient();
+//            WebTarget webTarget = client.target("http://localhost/8080/name/register");
+//
+//            MultivaluedMap<String, String> formData = new MultivaluedHashMap<String, String>();
+//            formData.add("name", "MircoserviceRequ");
+//          //  formData.add("url", "http://localhost/8001");
+//            formData.add("url", "test");
+////            Response response = webTarget.request().post(Entity.form(formData));
+//
+//            ClientResponse response = webResource
+//                    .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
+//                    .post(ClientResponse.class, formData);
+//
+
             server.join();
         } catch (Exception e) {
             throw new RuntimeException(e);
